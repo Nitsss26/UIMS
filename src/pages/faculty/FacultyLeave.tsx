@@ -58,7 +58,7 @@ export default function FacultyLeave() {
             id: Math.random().toString(36).substr(2, 9),
             facultyId: auth.user?.id,
             facultyName: auth.user?.name,
-            department: auth.user?.department || 'CSE', // Fallback
+            department: auth.user?.departmentId || 'CSE', // Fallback
             type: leaveType,
             startDate,
             endDate,

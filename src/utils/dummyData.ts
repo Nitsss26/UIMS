@@ -2,9 +2,270 @@ import type {
   Student, Faculty, Course, Attendance, Exam, Result, FeeStructure,
   FeePayment, Salary, TransportRoute, Vehicle, Driver, Hostel,
   Book, LibraryTransaction, Club, Notice, Timetable, LeaveApplication,
-  Activity, Notification
+  Activity, Notification, User, Department, University, UserRole
 } from '@/types';
 import { generateId, generateEnrollmentNumber, generateEmployeeId, generateReceiptNo } from './helpers';
+
+// ===================== USER ACCOUNTS FOR ALL PORTALS =====================
+
+export function generateUsers(students: Student[], faculty: Faculty[]): User[] {
+  const users: User[] = [];
+  const now = new Date().toISOString();
+
+  // Super Admin
+  users.push({
+    id: 'USR_SUPER_001',
+    username: 'superadmin',
+    email: 'superadmin@uims.edu.in',
+    name: 'System Administrator',
+    role: 'super_admin',
+    status: 'active',
+    createdAt: now,
+  });
+
+  // University Admin
+  users.push({
+    id: 'USR_ADMIN_001',
+    username: 'admin',
+    email: 'admin@bvu.edu.in',
+    name: 'Nitesh Kumar',
+    role: 'university_admin',
+    universityId: 'UNI_001',
+    status: 'active',
+    createdAt: now,
+  });
+
+  // HOD Library
+  users.push({
+    id: 'USR_LIB_001',
+    username: 'librarian',
+    email: 'library@bvu.edu.in',
+    name: 'Dr. Rajesh Sharma',
+    role: 'hod_library',
+    universityId: 'UNI_001',
+    departmentId: 'DEPT_LIB',
+    status: 'active',
+    createdAt: now,
+  });
+
+  // HOD Fees
+  users.push({
+    id: 'USR_FEE_001',
+    username: 'accountant',
+    email: 'accounts@bvu.edu.in',
+    name: 'Mr. Suresh Gupta',
+    role: 'hod_fees',
+    universityId: 'UNI_001',
+    departmentId: 'DEPT_FEE',
+    status: 'active',
+    createdAt: now,
+  });
+
+  // HOD Registration
+  users.push({
+    id: 'USR_REG_001',
+    username: 'registrar',
+    email: 'registrar@bvu.edu.in',
+    name: 'Dr. Priya Mehta',
+    role: 'hod_registration',
+    universityId: 'UNI_001',
+    departmentId: 'DEPT_REG',
+    status: 'active',
+    createdAt: now,
+  });
+
+  // HOD Examination
+  users.push({
+    id: 'USR_EXAM_001',
+    username: 'examiner',
+    email: 'examination@bvu.edu.in',
+    name: 'Prof. Anil Verma',
+    role: 'hod_examination',
+    universityId: 'UNI_001',
+    departmentId: 'DEPT_EXAM',
+    status: 'active',
+    createdAt: now,
+  });
+
+  // HOD Hostel
+  users.push({
+    id: 'USR_HST_001',
+    username: 'warden',
+    email: 'hostel@bvu.edu.in',
+    name: 'Mr. Ramesh Singh',
+    role: 'hod_hostel',
+    universityId: 'UNI_001',
+    departmentId: 'DEPT_HST',
+    status: 'active',
+    createdAt: now,
+  });
+
+  // Department HODs
+  const deptHods = [
+    { dept: 'CSE', name: 'Dr. Vikram Patel', deptId: 'DEPT_CSE' },
+    { dept: 'ECE', name: 'Dr. Sunita Sharma', deptId: 'DEPT_ECE' },
+    { dept: 'IT', name: 'Prof. Amit Kumar', deptId: 'DEPT_IT' },
+    { dept: 'MECH', name: 'Dr. Sachin Reddy', deptId: 'DEPT_MECH' },
+    { dept: 'CIVIL', name: 'Prof. Manoj Joshi', deptId: 'DEPT_CIVIL' },
+    { dept: 'EE', name: 'Dr. Kavita Rao', deptId: 'DEPT_EE' },
+  ];
+
+  deptHods.forEach((hod, idx) => {
+    users.push({
+      id: `USR_HOD_${hod.dept}`,
+      username: `hod_${hod.dept.toLowerCase()}`,
+      email: `hod.${hod.dept.toLowerCase()}@bvu.edu.in`,
+      name: hod.name,
+      role: 'hod_department',
+      universityId: 'UNI_001',
+      departmentId: hod.deptId,
+      status: 'active',
+      createdAt: now,
+    });
+  });
+
+  // Faculty users (from generated faculty list)
+  faculty.slice(0, 10).forEach((f, idx) => {
+    users.push({
+      id: `USR_FAC_${idx + 1}`,
+      username: `faculty${idx + 1}`,
+      email: f.email,
+      name: `${f.firstName} ${f.lastName}`,
+      role: 'faculty',
+      universityId: 'UNI_001',
+      departmentId: `DEPT_${f.department.substring(0, 3).toUpperCase()}`,
+      phone: f.phone,
+      status: 'active',
+      createdAt: now,
+    });
+  });
+
+  // Student users (from generated students list)
+  students.slice(0, 20).forEach((s, idx) => {
+    users.push({
+      id: `USR_STU_${idx + 1}`,
+      username: `student${idx + 1}`,
+      email: s.email,
+      name: `${s.firstName} ${s.lastName}`,
+      role: 'student',
+      universityId: 'UNI_001',
+      phone: s.phone,
+      status: 'active',
+      createdAt: now,
+    });
+  });
+
+  return users;
+}
+
+// ===================== UNIVERSITIES =====================
+
+export function generateUniversities(): University[] {
+  return [
+    {
+      id: 'UNI_001',
+      name: 'Bharati Vidyapeeth University',
+      shortName: 'BVU',
+      code: 'BVU2024',
+      address: 'Pune-Satara Road, Katraj',
+      city: 'Pune',
+      state: 'Maharashtra',
+      pincode: '411043',
+      phone: '020-24371101',
+      email: 'info@bvu.edu.in',
+      website: 'https://www.bvu.edu.in',
+      affiliatedTo: 'UGC',
+      establishedYear: 1964,
+      principalName: 'Dr. Shivajirao Kadam',
+      status: 'active',
+      createdAt: new Date().toISOString(),
+      subscriptionPlan: 'premium',
+    },
+    {
+      id: 'UNI_002',
+      name: 'Delhi Technological University',
+      shortName: 'DTU',
+      code: 'DTU2024',
+      address: 'Shahbad Daulatpur, Main Bawana Road',
+      city: 'New Delhi',
+      state: 'Delhi',
+      pincode: '110042',
+      phone: '011-27871018',
+      email: 'registrar@dtu.ac.in',
+      website: 'https://www.dtu.ac.in',
+      affiliatedTo: 'AICTE',
+      establishedYear: 1941,
+      principalName: 'Prof. D.K. Sharma',
+      status: 'active',
+      createdAt: new Date().toISOString(),
+      subscriptionPlan: 'premium',
+    },
+    {
+      id: 'UNI_003',
+      name: 'Visvesvaraya Technological University',
+      shortName: 'VTU',
+      code: 'VTU2024',
+      address: 'Machhe, Belgaum',
+      city: 'Belgaum',
+      state: 'Karnataka',
+      pincode: '590018',
+      phone: '0831-2498100',
+      email: 'registrar@vtu.ac.in',
+      website: 'https://www.vtu.ac.in',
+      affiliatedTo: 'UGC',
+      establishedYear: 1998,
+      principalName: 'Dr. Karisiddappa',
+      status: 'active',
+      createdAt: new Date().toISOString(),
+      subscriptionPlan: 'standard',
+    },
+  ];
+}
+
+// ===================== DEPARTMENTS =====================
+
+export function generateDepartments(): Department[] {
+  return [
+    // Academic Departments
+    { id: 'DEPT_CSE', universityId: 'UNI_001', code: 'CSE', name: 'Computer Science & Engineering', type: 'academic', facultyCount: 15, studentCount: 240, status: 'active' },
+    { id: 'DEPT_ECE', universityId: 'UNI_001', code: 'ECE', name: 'Electronics & Communication Engineering', type: 'academic', facultyCount: 12, studentCount: 180, status: 'active' },
+    { id: 'DEPT_IT', universityId: 'UNI_001', code: 'IT', name: 'Information Technology', type: 'academic', facultyCount: 10, studentCount: 150, status: 'active' },
+    { id: 'DEPT_MECH', universityId: 'UNI_001', code: 'MECH', name: 'Mechanical Engineering', type: 'academic', facultyCount: 14, studentCount: 200, status: 'active' },
+    { id: 'DEPT_CIVIL', universityId: 'UNI_001', code: 'CIVIL', name: 'Civil Engineering', type: 'academic', facultyCount: 11, studentCount: 160, status: 'active' },
+    { id: 'DEPT_EE', universityId: 'UNI_001', code: 'EE', name: 'Electrical Engineering', type: 'academic', facultyCount: 10, studentCount: 140, status: 'active' },
+    // Functional Departments
+    { id: 'DEPT_LIB', universityId: 'UNI_001', code: 'LIB', name: 'Library', type: 'functional', facultyCount: 5, studentCount: 0, status: 'active' },
+    { id: 'DEPT_FEE', universityId: 'UNI_001', code: 'FEE', name: 'Accounts & Finance', type: 'functional', facultyCount: 8, studentCount: 0, status: 'active' },
+    { id: 'DEPT_REG', universityId: 'UNI_001', code: 'REG', name: 'Registration & Admissions', type: 'functional', facultyCount: 6, studentCount: 0, status: 'active' },
+    { id: 'DEPT_EXAM', universityId: 'UNI_001', code: 'EXAM', name: 'Examination Cell', type: 'functional', facultyCount: 7, studentCount: 0, status: 'active' },
+    { id: 'DEPT_HST', universityId: 'UNI_001', code: 'HST', name: 'Hostel Administration', type: 'functional', facultyCount: 4, studentCount: 0, status: 'active' },
+  ];
+}
+
+// ===================== USER CREDENTIALS (for login) =====================
+
+export const USER_CREDENTIALS: Record<string, { password: string; userId: string }> = {
+  'superadmin': { password: 'super@123', userId: 'USR_SUPER_001' },
+  'admin': { password: '123456', userId: 'USR_ADMIN_001' },
+  'librarian': { password: 'lib@123', userId: 'USR_LIB_001' },
+  'accountant': { password: 'fee@123', userId: 'USR_FEE_001' },
+  'registrar': { password: 'reg@123', userId: 'USR_REG_001' },
+  'examiner': { password: 'exam@123', userId: 'USR_EXAM_001' },
+  'warden': { password: 'hostel@123', userId: 'USR_HST_001' },
+  'hod_cse': { password: 'cse@123', userId: 'USR_HOD_CSE' },
+  'hod_ece': { password: 'ece@123', userId: 'USR_HOD_ECE' },
+  'hod_it': { password: 'it@123', userId: 'USR_HOD_IT' },
+  'hod_mech': { password: 'mech@123', userId: 'USR_HOD_MECH' },
+  'hod_civil': { password: 'civil@123', userId: 'USR_HOD_CIVIL' },
+  'hod_ee': { password: 'ee@123', userId: 'USR_HOD_EE' },
+  'faculty1': { password: 'fac@123', userId: 'USR_FAC_1' },
+  'faculty2': { password: 'fac@123', userId: 'USR_FAC_2' },
+  'faculty3': { password: 'fac@123', userId: 'USR_FAC_3' },
+  'student1': { password: 'stu@123', userId: 'USR_STU_1' },
+  'student2': { password: 'stu@123', userId: 'USR_STU_2' },
+  'student3': { password: 'stu@123', userId: 'USR_STU_3' },
+};
+
 
 // Indian Names
 const firstNames = {
@@ -218,7 +479,7 @@ export function generateAttendance(students: Student[], count: number = 200): At
     const student = random(students);
     const date = randomDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1), currentDate);
     const statuses: ('present' | 'absent' | 'leave' | 'holiday')[] = ['present', 'absent', 'leave', 'holiday'];
-    
+
     attendance.push({
       id: generateId('ATT'),
       studentId: student.id,
@@ -241,7 +502,7 @@ export function generateExams(count: number = 30): Exam[] {
   for (let i = 0; i < count; i++) {
     const course = random(courses);
     const branchList = branches[course.name] || ['General'];
-    
+
     exams.push({
       id: generateId('EXM'),
       name: random(['Mid Term', 'End Term', 'Internal Assessment', 'Practical Exam', 'Viva Voce']),
@@ -272,7 +533,7 @@ export function generateResults(exams: Exam[], students: Student[], count: numbe
     const student = random(students);
     const marksObtained = randomInt(0, exam.maxMarks);
     const percentage = (marksObtained / exam.maxMarks) * 100;
-    
+
     results.push({
       id: generateId('RES'),
       examId: exam.id,
@@ -297,7 +558,7 @@ export function generateFeeStructures(): FeeStructure[] {
     branchList.forEach((branch) => {
       for (let semester = 1; semester <= course.duration * 2; semester++) {
         const baseFee = course.type === 'ug' ? 50000 : 75000;
-        
+
         feeStructures.push({
           id: generateId('FEE'),
           course: course.name,
@@ -320,8 +581,8 @@ export function generateFeeStructures(): FeeStructure[] {
 
   // Calculate total fee
   feeStructures.forEach((fee) => {
-    fee.totalFee = fee.tuitionFee + fee.labFee + fee.libraryFee + fee.sportsFee + 
-                   fee.developmentFee + fee.examinationFee;
+    fee.totalFee = fee.tuitionFee + fee.labFee + fee.libraryFee + fee.sportsFee +
+      fee.developmentFee + fee.examinationFee;
   });
 
   return feeStructures;
@@ -334,10 +595,10 @@ export function generateFeePayments(students: Student[], feeStructures: FeeStruc
   for (let i = 0; i < count; i++) {
     const student = random(students);
     const feeStructure = feeStructures.find(f => f.course === student.course && f.branch === student.branch && f.semester === student.semester);
-    
+
     if (feeStructure) {
       const amount = Math.random() > 0.3 ? feeStructure.totalFee : feeStructure.totalFee / 2;
-      
+
       payments.push({
         id: generateId('PAY'),
         studentId: student.id,
@@ -375,7 +636,7 @@ export function generateSalaries(faculty: Faculty[], count: number = 50): Salary
     const esi = grossSalary > 21000 ? 0 : grossSalary * 0.0075;
     const tds = grossSalary * 0.05;
     const totalDeductions = pf + esi + tds;
-    
+
     salaries.push({
       id: generateId('SAL'),
       facultyId: fac.id,
@@ -458,7 +719,7 @@ export function generateDrivers(count: number = 15): Driver[] {
   for (let i = 0; i < count; i++) {
     const firstName = random(firstNames.male);
     const lastName = random(lastNames);
-    
+
     drivers.push({
       id: generateId('DRV'),
       name: `${firstName} ${lastName}`,
@@ -536,7 +797,7 @@ export function generateBooks(count: number = 100): Book[] {
   for (let i = 0; i < count; i++) {
     const title = random(bookTitles);
     const quantity = randomInt(5, 20);
-    
+
     books.push({
       id: generateId('BOK'),
       isbn: `${randomInt(100, 999)}-${randomInt(0, 9)}-${randomInt(100000, 999999)}-${randomInt(0, 9)}`,
@@ -567,7 +828,7 @@ export function generateLibraryTransactions(books: Book[], students: Student[], 
     const issueDate = randomDate(new Date(2024, 0, 1), new Date());
     const dueDate = new Date(issueDate);
     dueDate.setDate(dueDate.getDate() + 14);
-    
+
     transactions.push({
       id: generateId('LIB'),
       bookId: book.id,
@@ -692,7 +953,7 @@ export function generateTimetables(count: number = 10): Timetable[] {
   for (let i = 0; i < count; i++) {
     const course = random(courses);
     const branchList = branches[course.name] || ['General'];
-    
+
     timetables.push({
       id: generateId('TTB'),
       course: course.name,
@@ -726,7 +987,7 @@ export function generateLeaveApplications(students: Student[], faculty: Faculty[
     const startDate = randomDate(new Date(2024, 0, 1), new Date());
     const endDate = new Date(startDate);
     endDate.setDate(endDate.getDate() + randomInt(1, 7));
-    
+
     leaves.push({
       id: generateId('LEV'),
       applicantId: applicant.id,
@@ -822,6 +1083,11 @@ export function initializeDummyData() {
   const activities = generateActivities(50);
   const notifications = generateNotifications(20);
 
+  // New multi-portal data
+  const users = generateUsers(students, faculty);
+  const universities = generateUniversities();
+  const departments = generateDepartments();
+
   return {
     students,
     faculty,
@@ -844,5 +1110,8 @@ export function initializeDummyData() {
     leaveApplications,
     activities,
     notifications,
+    users,
+    universities,
+    departments,
   };
 }

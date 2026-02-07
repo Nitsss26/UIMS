@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react';
 import { useApp } from '@/context/AppContext';
+import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +9,23 @@ import { formatCurrency, getStatusColor } from '@/utils/helpers';
 
 export default function HostelAllocation() {
   const { state } = useApp();
+  const [requests, setRequests] = useState<any[]>([]);
+
+  useEffect(() => {
+    const loadedRequests = JSON.parse(localStorage.getItem('hostel_requests') || '[]');
+    setRequests(loadedRequests);
+  }, []);
+
+  const handleStatusUpdate = (id: string, newStatus: 'approved' | 'rejected') => {
+    const updatedRequests = requests.map(req =>
+      req.id === id ? { ...req, status: newStatus } : req
+    );
+    setRequests(updatedRequests);
+    localStorage.setItem('hostel_requests', JSON.stringify(updatedRequests));
+    toast.success(`Request ${newStatus} successfully`);
+  };
+
+  const pendingRequests = requests.filter(r => r.status === 'pending');
 
   return (
     <div className="space-y-6">
@@ -20,6 +39,58 @@ export default function HostelAllocation() {
           Allocate Room
         </Button>
       </div>
+
+      {/* Pending Requests */}
+      {pendingRequests.length > 0 && (
+        <Card className="border-0 shadow-md mb-6">
+          <CardHeader>
+            <CardTitle>Pending Allocation Requests</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left">
+                <thead className="text-xs text-slate-500 uppercase bg-slate-50">
+                  <tr>
+                    <th className="px-4 py-3">Student</th>
+                    <th className="px-4 py-3">Room Type</th>
+                    <th className="px-4 py-3">Block</th>
+                    <th className="px-4 py-3">Date</th>
+                    <th className="px-4 py-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pendingRequests.map((req) => (
+                    <tr key={req.id} className="border-b hover:bg-slate-50">
+                      <td className="px-4 py-3 font-medium">{req.studentName}</td>
+                      <td className="px-4 py-3">{req.roomType}</td>
+                      <td className="px-4 py-3">{req.block}</td>
+                      <td className="px-4 py-3">{new Date(req.date).toLocaleDateString()}</td>
+                      <td className="px-4 py-3 text-right space-x-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                          onClick={() => handleStatusUpdate(req.id, 'approved')}
+                        >
+                          Approve
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                          onClick={() => handleStatusUpdate(req.id, 'rejected')}
+                        >
+                          Reject
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Hostels */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

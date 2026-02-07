@@ -120,7 +120,7 @@ export default function FacultyList() {
             Export
           </Button>
           <Button asChild className="bg-blue-600 hover:bg-blue-700">
-            <Link to="/faculty/add">
+            <Link to="/admin/faculty/add">
               <Plus className="w-4 h-4 mr-2" />
               Add Faculty
             </Link>
@@ -191,7 +191,7 @@ export default function FacultyList() {
           <h3 className="text-lg font-medium text-slate-700 mb-2">No faculty found</h3>
           <p className="text-slate-500 mb-4">Try adjusting your filters or add a new faculty member</p>
           <Button asChild>
-            <Link to="/faculty/add">Add Faculty</Link>
+            <Link to="/admin/faculty/add">Add Faculty</Link>
           </Button>
         </div>
       ) : (
@@ -208,12 +208,12 @@ export default function FacultyList() {
                   </Avatar>
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
-                      <Link to={`/faculty/profile/${faculty.id}`}>
+                      <Link to={`/admin/faculty/profile/${faculty.id}`}>
                         <Eye className="w-4 h-4" />
                       </Link>
                     </Button>
                     <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
-                      <Link to={`/faculty/edit/${faculty.id}`}>
+                      <Link to={`/admin/faculty/edit/${faculty.id}`}>
                         <Edit className="w-4 h-4" />
                       </Link>
                     </Button>

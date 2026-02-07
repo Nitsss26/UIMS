@@ -23,23 +23,23 @@ export default function Login() {
     setIsLoading(true);
 
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
-    const success = login(userId, password, 'admin');
+    const result = login(userId, password);
 
-    if (success) {
-      toast.success('Welcome to Bharatiya Vidyapeeth University Management System');
-      navigate('/');
+    if (result.success) {
+      toast.success('Welcome to UIMS - University Integrated Management System');
+      navigate(result.portalPath || '/');
     } else {
-      toast.error('Invalid credentials. Please try again.');
+      toast.error(result.message || 'Invalid credentials. Please try again.');
     }
 
     setIsLoading(false);
   };
 
-  const handleQuickLogin = () => {
-    setUserId('admin');
-    setPassword('123456');
+  const handleQuickLogin = (username: string, pwd: string) => {
+    setUserId(username);
+    setPassword(pwd);
   };
 
   return (
@@ -52,7 +52,7 @@ export default function Login() {
           <div className="absolute top-20 left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-sky-300/20 rounded-full blur-3xl animate-pulse delay-1000" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-3xl" />
-          
+
           {/* Grid Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
@@ -235,15 +235,76 @@ export default function Login() {
                   )}
                 </Button>
 
-                {/* Quick Login */}
-                <div className="text-center">
-                  <button
-                    type="button"
-                    onClick={handleQuickLogin}
-                    className="text-sm text-slate-500 hover:text-blue-600 transition-colors"
-                  >
-                    Use demo credentials (admin / 123456)
-                  </button>
+                {/* Quick Login Options */}
+                <div className="space-y-3">
+                  <p className="text-xs text-center text-slate-500">Quick Login (Demo Credentials)</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin('admin', '123456')}
+                      className="text-xs py-2 px-3 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
+                    >
+                      Admin
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin('superadmin', 'super@123')}
+                      className="text-xs py-2 px-3 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors"
+                    >
+                      Super Admin
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin('hod_cse', 'cse@123')}
+                      className="text-xs py-2 px-3 rounded-lg bg-sky-50 text-sky-600 hover:bg-sky-100 transition-colors"
+                    >
+                      HOD (CSE)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin('faculty1', 'fac@123')}
+                      className="text-xs py-2 px-3 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors"
+                    >
+                      Faculty
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin('student1', 'stu@123')}
+                      className="text-xs py-2 px-3 rounded-lg bg-teal-50 text-teal-600 hover:bg-teal-100 transition-colors"
+                    >
+                      Student
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin('librarian', 'lib@123')}
+                      className="text-xs py-2 px-3 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 transition-colors"
+                    >
+                      Librarian
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin('accountant', 'fee@123')}
+                      className="text-xs py-2 px-3 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
+                    >
+                      Accountant
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleQuickLogin('registrar', 'reg@123')}
+                      className="text-xs py-2 px-3 rounded-lg bg-orange-50 text-orange-600 hover:bg-orange-100 transition-colors"
+                    >
+                      Registrar
+                    </button>
+                    <div className="col-span-2 flex justify-center">
+                      <button
+                        type="button"
+                        onClick={() => handleQuickLogin('warden', 'hostel@123')}
+                        className="w-[calc(50%-0.25rem)] text-xs py-2 px-3 rounded-lg bg-violet-50 text-violet-600 hover:bg-violet-100 transition-colors"
+                      >
+                        Hostel Warden
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </form>
 

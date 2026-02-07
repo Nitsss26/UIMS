@@ -1,18 +1,113 @@
 // Types for University Integrated Management System
 
-export interface User {
+// ===================== ROLE & PERMISSION SYSTEM =====================
+
+export type UserRole =
+  | 'super_admin'
+  | 'university_admin'
+  | 'hod_library'
+  | 'hod_fees'
+  | 'hod_registration'
+  | 'hod_examination'
+  | 'hod_hostel'
+  | 'hod_department'
+  | 'faculty'
+  | 'student';
+
+export interface Permission {
+  module: string;
+  actions: ('create' | 'read' | 'update' | 'delete')[];
+}
+
+export interface RoleConfig {
+  name: UserRole;
+  displayName: string;
+  level: number; // 0 = highest (super_admin), 4 = lowest (student)
+  permissions: Permission[];
+  portalPath: string;
+}
+
+// ===================== UNIVERSITY STRUCTURE =====================
+
+export interface University {
   id: string;
   name: string;
+  shortName: string;
+  code: string;
+  logo?: string;
+  address: string;
+  city: string;
+  state: string;
+  pincode: string;
+  phone: string;
   email: string;
-  role: 'admin' | 'teacher' | 'student';
+  website: string;
+  affiliatedTo: string;
+  establishedYear: number;
+  principalName: string;
+  status: 'active' | 'inactive' | 'suspended';
+  createdAt: string;
+  subscriptionPlan?: 'basic' | 'standard' | 'premium';
+  subscriptionExpiry?: string;
+}
+
+export interface Department {
+  id: string;
+  universityId: string;
+  code: string;
+  name: string;
+  type: 'academic' | 'functional';
+  hodId?: string;
+  facultyCount: number;
+  studentCount: number;
+  status: 'active' | 'inactive';
+}
+
+// ===================== USER SYSTEM =====================
+
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  name: string;
+  role: UserRole;
+  universityId?: string; // null for super_admin
+  departmentId?: string; // null for admin levels
   avatar?: string;
+  phone?: string;
+  status: 'active' | 'inactive' | 'suspended';
+  lastLogin?: string;
+  createdAt: string;
+  createdBy?: string;
 }
 
 export interface AuthState {
   isLoggedIn: boolean;
   user: User | null;
-  role: 'admin' | 'teacher' | 'student' | null;
+  role: UserRole | null;
+  universityId: string | null;
+  permissions: Permission[];
+  portalPath: string;
 }
+
+// ===================== PORTAL CONFIGURATIONS =====================
+
+export interface PortalConfig {
+  role: UserRole;
+  title: string;
+  subtitle: string;
+  primaryColor: string;
+  navItems: NavItem[];
+}
+
+export interface NavItem {
+  label: string;
+  href: string;
+  icon: string;
+  badge?: number;
+  children?: NavItem[];
+}
+
 
 export interface Student {
   id: string;

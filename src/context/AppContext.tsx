@@ -3,9 +3,11 @@ import type {
   AuthState, Student, Faculty, Course, Attendance, Exam, Result,
   FeeStructure, FeePayment, Salary, TransportRoute, Vehicle, Driver,
   Hostel, HostelAllocation, Book, LibraryTransaction, Club, Notice,
-  Timetable, LeaveApplication, UniversitySettings, Activity, Notification
+  Timetable, LeaveApplication, UniversitySettings, Activity, Notification,
+  User, University, Department, Permission
 } from '@/types';
-import { initializeDummyData } from '@/utils/dummyData';
+import { initializeDummyData, USER_CREDENTIALS } from '@/utils/dummyData';
+import { ROLE_CONFIGS } from '@/config/roles';
 
 // Initial State
 interface AppState {
@@ -33,6 +35,10 @@ interface AppState {
   settings: UniversitySettings;
   activities: Activity[];
   notifications: Notification[];
+  // Multi-portal additions
+  users: User[];
+  universities: University[];
+  departments: Department[];
 }
 
 const initialSettings: UniversitySettings = {
@@ -54,6 +60,9 @@ const initialAuthState: AuthState = {
   isLoggedIn: false,
   user: null,
   role: null,
+  universityId: null,
+  permissions: [],
+  portalPath: '/login',
 };
 
 const defaultItems = initializeDummyData();
@@ -83,6 +92,10 @@ const initialState: AppState = {
   settings: initialSettings,
   activities: defaultItems.activities,
   notifications: defaultItems.notifications,
+  // Multi-portal additions
+  users: defaultItems.users,
+  universities: defaultItems.universities,
+  departments: defaultItems.departments,
 };
 
 // Action Types
@@ -304,22 +317,36 @@ export function useApp() {
 export function useAuth() {
   const { state, dispatch } = useApp();
 
-  const login = (userId: string, password: string, role: 'admin' | 'teacher' | 'student') => {
-    // Default credentials check
-    if (userId === 'admin' && password === '123456') {
-      const user = {
-        id: 'ADMIN001',
-        name: 'System Administrator',
-        email: 'admin@bvu.edu.in',
-        role: role,
-      };
-      dispatch({
-        type: 'SET_AUTH',
-        payload: { isLoggedIn: true, user, role },
-      });
-      return true;
+  const login = (username: string, password: string) => {
+    // Find user in users list by username
+    const user = state.users.find((u) => u.username === username);
+
+    if (!user) {
+      return { success: false, message: 'User not found' };
     }
-    return false;
+
+    // Check credentials from USER_CREDENTIALS map
+    const credentials = USER_CREDENTIALS[username];
+    if (!credentials || credentials.password !== password) {
+      return { success: false, message: 'Invalid password' };
+    }
+
+    // Get role config for permissions and portal path
+    const roleConfig = ROLE_CONFIGS[user.role];
+
+    dispatch({
+      type: 'SET_AUTH',
+      payload: {
+        isLoggedIn: true,
+        user,
+        role: user.role,
+        universityId: user.universityId || null,
+        permissions: roleConfig.permissions,
+        portalPath: roleConfig.portalPath,
+      },
+    });
+
+    return { success: true, portalPath: roleConfig.portalPath };
   };
 
   const logout = () => {

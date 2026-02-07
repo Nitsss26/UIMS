@@ -135,7 +135,7 @@ export default function StudentList() {
             Export
           </Button>
           <Button asChild className="bg-blue-600 hover:bg-blue-700">
-            <Link to="/students/add">
+            <Link to="/admin/students/add">
               <Plus className="w-4 h-4 mr-2" />
               Add Student
             </Link>
@@ -224,7 +224,7 @@ export default function StudentList() {
                         <GraduationCap className="w-12 h-12 text-slate-300" />
                         <p className="text-slate-500">No students found</p>
                         <Button variant="outline" asChild>
-                          <Link to="/students/add">Add Student</Link>
+                          <Link to="/admin/students/add">Add Student</Link>
                         </Button>
                       </div>
                     </TableCell>
@@ -287,13 +287,13 @@ export default function StudentList() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem asChild>
-                              <Link to={`/students/profile/${student.id}`}>
+                              <Link to={`/admin/students/profile/${student.id}`}>
                                 <Eye className="w-4 h-4 mr-2" />
                                 View Profile
                               </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                              <Link to={`/students/edit/${student.id}`}>
+                              <Link to={`/admin/students/edit/${student.id}`}>
                                 <Edit className="w-4 h-4 mr-2" />
                                 Edit
                               </Link>

@@ -74,7 +74,7 @@ export default function Login() {
 
           {/* Title */}
           <h1 className="text-4xl xl:text-5xl font-bold text-white text-center mb-4">
-            Bharatiya Vidyapeeth
+            Odisha Vidyapeeth
           </h1>
           <p className="text-xl text-blue-100 text-center mb-12">
             University Management System
@@ -136,7 +136,7 @@ export default function Login() {
             <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg mb-4">
               <GraduationCap className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-800">Bharatiya Vidyapeeth</h1>
+            <h1 className="text-2xl font-bold text-slate-800">Odisha Vidyapeeth</h1>
             <p className="text-slate-500">University Management System</p>
           </div>
 
@@ -353,7 +353,7 @@ export default function Login() {
 
           {/* Footer */}
           <p className="text-center text-sm text-slate-500 mt-6">
-            © 2024 Bharatiya Vidyapeeth University. All rights reserved.
+            © 2024 Odisha Vidyapeeth University. All rights reserved.
           </p>
         </div>
       </div>

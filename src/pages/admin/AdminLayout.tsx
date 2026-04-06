@@ -343,7 +343,7 @@ export default function AdminLayout() {
                     </div>
                     {!sidebarCollapsed && (
                         <div className="flex flex-col">
-                            <span className="font-bold text-slate-800 text-sm leading-tight">Bharatiya Vidyapeeth</span>
+                            <span className="font-bold text-slate-800 text-sm leading-tight">Odisha Vidyapeeth</span>
                             <span className="text-xs text-slate-500">University Management</span>
                         </div>
                     )}

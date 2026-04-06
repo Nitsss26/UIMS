@@ -123,7 +123,7 @@ export default function HODLayout() {
                         <GraduationCap className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex flex-col">
-                        <span className="font-bold text-slate-800 text-sm leading-tight">Bharatiya Vidyapeeth</span>
+                        <span className="font-bold text-slate-800 text-sm leading-tight">Odisha Vidyapeeth</span>
                         <span className="text-xs text-slate-500">University Management</span>
                     </div>
                 </div>

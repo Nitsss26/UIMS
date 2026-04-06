@@ -29,20 +29,20 @@ export default function IDCardGenerator() {
 
   const filteredList = selectedType === 'student'
     ? state.students.filter((s) =>
-        `${s.firstName} ${s.lastName} ${s.enrollmentNo}`.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      `${s.firstName} ${s.lastName} ${s.enrollmentNo}`.toLowerCase().includes(searchQuery.toLowerCase())
+    )
     : state.faculty.filter((f) =>
-        `${f.firstName} ${f.lastName} ${f.employeeId}`.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      `${f.firstName} ${f.lastName} ${f.employeeId}`.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   const handlePrint = () => {
     if (!idCardRef.current) return;
-    
+
     const printWindow = window.open('', '_blank');
     if (!printWindow) return;
 
-    const idNumber = selectedType === 'student' 
-      ? (selectedPerson as any)?.enrollmentNo 
+    const idNumber = selectedType === 'student'
+      ? (selectedPerson as any)?.enrollmentNo
       : (selectedPerson as any)?.employeeId;
 
     printWindow.document.write(`
@@ -129,9 +129,8 @@ export default function IDCardGenerator() {
                     setSelectedId(person.id);
                     setSearchQuery('');
                   }}
-                  className={`w-full flex items-center gap-3 p-3 hover:bg-slate-50 text-left ${
-                    selectedId === person.id ? 'bg-blue-50 border-l-4 border-blue-600' : ''
-                  }`}
+                  className={`w-full flex items-center gap-3 p-3 hover:bg-slate-50 text-left ${selectedId === person.id ? 'bg-blue-50 border-l-4 border-blue-600' : ''
+                    }`}
                 >
                   <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">
                     {getInitials(`${person.firstName} ${person.lastName}`)}
@@ -185,7 +184,7 @@ export default function IDCardGenerator() {
                         <span className="text-white font-bold text-lg">BVU</span>
                       </div>
                       <div>
-                        <p className="text-white font-bold text-sm">Bharatiya Vidyapeeth</p>
+                        <p className="text-white font-bold text-sm">Odisha Vidyapeeth</p>
                         <p className="text-blue-100 text-xs">University, Pune</p>
                       </div>
                     </div>

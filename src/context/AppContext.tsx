@@ -42,7 +42,7 @@ interface AppState {
 }
 
 const initialSettings: UniversitySettings = {
-  name: 'Bharatiya Vidyapeeth University',
+  name: 'Odisha Vidyapeeth University',
   shortName: 'BVU',
   address: 'Pune-Bangalore Highway',
   city: 'Pune',

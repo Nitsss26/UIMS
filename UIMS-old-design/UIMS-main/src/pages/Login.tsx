@@ -1,19 +1,36 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AppContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { toast } from 'sonner';
-import { GraduationCap, Eye, EyeOff, Lock, User, ArrowRight, School, BookOpen, Users, Award } from 'lucide-react';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AppContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
+import {
+  GraduationCap,
+  Eye,
+  EyeOff,
+  Lock,
+  User,
+  ArrowRight,
+  School,
+  BookOpen,
+  Users,
+  Award,
+} from "lucide-react";
 
 export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [userId, setUserId] = useState('');
-  const [password, setPassword] = useState('');
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,21 +42,23 @@ export default function Login() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const success = login(userId, password, 'admin');
+    const success = login(userId, password, "admin");
 
     if (success) {
-      toast.success('Welcome to Odisha Vidyapeeth University Management System');
-      navigate('/');
+      toast.success(
+        "Welcome to Madhya Pradesh Vidyapeeth University Management System",
+      );
+      navigate("/");
     } else {
-      toast.error('Invalid credentials. Please try again.');
+      toast.error("Invalid credentials. Please try again.");
     }
 
     setIsLoading(false);
   };
 
   const handleQuickLogin = () => {
-    setUserId('admin');
-    setPassword('123456');
+    setUserId("admin");
+    setPassword("123456");
   };
 
   return (
@@ -55,11 +74,14 @@ export default function Login() {
 
           {/* Grid Pattern */}
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
                                 linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-              backgroundSize: '50px 50px'
-            }} />
+                backgroundSize: "50px 50px",
+              }}
+            />
           </div>
         </div>
 
@@ -74,7 +96,7 @@ export default function Login() {
 
           {/* Title */}
           <h1 className="text-4xl xl:text-5xl font-bold text-white text-center mb-4">
-            Odisha Vidyapeeth
+            Madhya Pradesh Vidyapeeth
           </h1>
           <p className="text-xl text-blue-100 text-center mb-12">
             University Management System
@@ -123,7 +145,9 @@ export default function Login() {
           {/* Affiliation Badge */}
           <div className="mt-12 flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3">
             <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-blue-100 text-sm">UGC & AICTE Approved Institution</span>
+            <span className="text-blue-100 text-sm">
+              UGC & AICTE Approved Institution
+            </span>
           </div>
         </div>
       </div>
@@ -136,7 +160,9 @@ export default function Login() {
             <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg mb-4">
               <GraduationCap className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-800">Odisha Vidyapeeth</h1>
+            <h1 className="text-2xl font-bold text-slate-800">
+              Madhya Pradesh Vidyapeeth
+            </h1>
             <p className="text-slate-500">University Management System</p>
           </div>
 
@@ -153,7 +179,10 @@ export default function Login() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* User ID */}
                 <div className="space-y-2">
-                  <Label htmlFor="userId" className="text-slate-700 font-medium">
+                  <Label
+                    htmlFor="userId"
+                    className="text-slate-700 font-medium"
+                  >
                     User ID
                   </Label>
                   <div className="relative">
@@ -172,14 +201,17 @@ export default function Login() {
 
                 {/* Password */}
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-slate-700 font-medium">
+                  <Label
+                    htmlFor="password"
+                    className="text-slate-700 font-medium"
+                  >
                     Password
                   </Label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                     <Input
                       id="password"
-                      type={showPassword ? 'text' : 'password'}
+                      type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -191,7 +223,11 @@ export default function Login() {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                     >
-                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      {showPassword ? (
+                        <EyeOff className="w-5 h-5" />
+                      ) : (
+                        <Eye className="w-5 h-5" />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -202,9 +238,14 @@ export default function Login() {
                     <Checkbox
                       id="remember"
                       checked={rememberMe}
-                      onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                      onCheckedChange={(checked) =>
+                        setRememberMe(checked as boolean)
+                      }
                     />
-                    <Label htmlFor="remember" className="text-sm text-slate-600 cursor-pointer">
+                    <Label
+                      htmlFor="remember"
+                      className="text-sm text-slate-600 cursor-pointer"
+                    >
                       Remember me
                     </Label>
                   </div>
@@ -253,13 +294,18 @@ export default function Login() {
                   <div className="w-full border-t border-slate-200" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-slate-500">Or continue with</span>
+                  <span className="px-4 bg-white text-slate-500">
+                    Or continue with
+                  </span>
                 </div>
               </div>
 
               {/* Social Login */}
               <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="h-11 border-slate-200 hover:bg-slate-50">
+                <Button
+                  variant="outline"
+                  className="h-11 border-slate-200 hover:bg-slate-50"
+                >
                   <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                     <path
                       fill="currentColor"
@@ -280,8 +326,15 @@ export default function Login() {
                   </svg>
                   Google
                 </Button>
-                <Button variant="outline" className="h-11 border-slate-200 hover:bg-slate-50">
-                  <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                <Button
+                  variant="outline"
+                  className="h-11 border-slate-200 hover:bg-slate-50"
+                >
+                  <svg
+                    className="w-5 h-5 mr-2"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
                     <path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.684.81-1.513 1.24-2.333 1.24-.82 0-1.65-.43-2.334-1.24-.684-.81-1.177-1.94-1.177-3.08 0-1.14.493-2.27 1.177-3.08.684-.81 1.514-1.24 2.334-1.24.82 0 1.649.43 2.333 1.24.684.81 1.177 1.94 1.177 3.08zm-4.71 4.92c-1.68 0-3.23.73-4.28 1.89-1.05 1.16-1.64 2.73-1.64 4.37 0 1.64.59 3.21 1.64 4.37 1.05 1.16 2.6 1.89 4.28 1.89 1.68 0 3.23-.73 4.28-1.89 1.05-1.16 1.64-2.73 1.64-4.37 0-1.64-.59-3.21-1.64-4.37-1.05-1.16-2.6-1.89-4.28-1.89z" />
                   </svg>
                   Microsoft
@@ -292,7 +345,7 @@ export default function Login() {
 
           {/* Footer */}
           <p className="text-center text-sm text-slate-500 mt-6">
-            © 2024 Odisha Vidyapeeth University. All rights reserved.
+            © 2024 Madhya Pradesh Vidyapeeth University. All rights reserved.
           </p>
         </div>
       </div>

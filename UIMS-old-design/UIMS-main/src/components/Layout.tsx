@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import { Outlet, useLocation, Link } from 'react-router-dom';
-import { useApp, useAuth } from '@/context/AppContext';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useState } from "react";
+import { Outlet, useLocation, Link } from "react-router-dom";
+import { useApp, useAuth } from "@/context/AppContext";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 // import { Separator } from '@/components/ui/separator';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,9 +19,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { toast } from 'sonner';
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { toast } from "sonner";
 import {
   LayoutDashboard,
   Users,
@@ -49,7 +49,7 @@ import {
   GraduationCap,
   School,
   IdCard,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface NavItem {
   title: string;
@@ -60,125 +60,131 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { title: 'Dashboard', icon: LayoutDashboard, href: '/' },
+  { title: "Dashboard", icon: LayoutDashboard, href: "/" },
   {
-    title: 'Students',
+    title: "Students",
     icon: Users,
     items: [
-      { title: 'All Students', href: '/students' },
-      { title: 'Add Student', href: '/students/add' },
+      { title: "All Students", href: "/students" },
+      { title: "Add Student", href: "/students/add" },
     ],
   },
   {
-    title: 'Faculty',
+    title: "Faculty",
     icon: UserCircle,
     items: [
-      { title: 'All Faculty', href: '/faculty' },
-      { title: 'Add Faculty', href: '/faculty/add' },
+      { title: "All Faculty", href: "/faculty" },
+      { title: "Add Faculty", href: "/faculty/add" },
     ],
   },
   {
-    title: 'Attendance',
+    title: "Attendance",
     icon: CalendarCheck,
     items: [
-      { title: 'Mark Attendance', href: '/attendance/marking' },
-      { title: 'Attendance Reports', href: '/attendance/reports' },
+      { title: "Mark Attendance", href: "/attendance/marking" },
+      { title: "Attendance Reports", href: "/attendance/reports" },
     ],
   },
   {
-    title: 'Academic',
+    title: "Academic",
     icon: BookOpen,
     items: [
-      { title: 'Courses', href: '/academic/courses' },
-      { title: 'Subjects', href: '/academic/subjects' },
+      { title: "Courses", href: "/academic/courses" },
+      { title: "Subjects", href: "/academic/subjects" },
     ],
   },
   {
-    title: 'Timetable',
+    title: "Timetable",
     icon: Clock,
     items: [
-      { title: 'View Timetable', href: '/timetable/view' },
-      { title: 'Generate Timetable', href: '/timetable/generate' },
+      { title: "View Timetable", href: "/timetable/view" },
+      { title: "Generate Timetable", href: "/timetable/generate" },
     ],
   },
   {
-    title: 'Examinations',
+    title: "Examinations",
     icon: FileText,
     items: [
-      { title: 'Exam Schedule', href: '/exams/schedule' },
-      { title: 'Marks Entry', href: '/exams/marks-entry' },
-      { title: 'Results', href: '/exams/results' },
+      { title: "Exam Schedule", href: "/exams/schedule" },
+      { title: "Marks Entry", href: "/exams/marks-entry" },
+      { title: "Results", href: "/exams/results" },
     ],
   },
   {
-    title: 'Fees',
+    title: "Fees",
     icon: IndianRupee,
     items: [
-      { title: 'Fee Structure', href: '/fees/structure' },
-      { title: 'Fee Collection', href: '/fees/collection' },
-      { title: 'Fee Reports', href: '/fees/reports' },
+      { title: "Fee Structure", href: "/fees/structure" },
+      { title: "Fee Collection", href: "/fees/collection" },
+      { title: "Fee Reports", href: "/fees/reports" },
     ],
   },
   {
-    title: 'Salary',
+    title: "Salary",
     icon: Wallet,
     items: [
-      { title: 'Salary Dashboard', href: '/salary/dashboard' },
-      { title: 'Generate Salary', href: '/salary/generate' },
+      { title: "Salary Dashboard", href: "/salary/dashboard" },
+      { title: "Generate Salary", href: "/salary/generate" },
     ],
   },
   {
-    title: 'Transport',
+    title: "Transport",
     icon: Bus,
     items: [
-      { title: 'Routes', href: '/transport/routes' },
-      { title: 'Vehicles', href: '/transport/vehicles' },
+      { title: "Routes", href: "/transport/routes" },
+      { title: "Vehicles", href: "/transport/vehicles" },
     ],
   },
   {
-    title: 'Hostel',
+    title: "Hostel",
     icon: Building2,
     items: [
-      { title: 'Allocation', href: '/hostel/allocation' },
-      { title: 'Room Management', href: '/hostel/rooms' },
+      { title: "Allocation", href: "/hostel/allocation" },
+      { title: "Room Management", href: "/hostel/rooms" },
     ],
   },
   {
-    title: 'Library',
+    title: "Library",
     icon: Library,
     items: [
-      { title: 'Book Catalog', href: '/library/books' },
-      { title: 'Issue/Return', href: '/library/transactions' },
+      { title: "Book Catalog", href: "/library/books" },
+      { title: "Issue/Return", href: "/library/transactions" },
     ],
   },
   {
-    title: 'Clubs & Activities',
+    title: "Clubs & Activities",
     icon: Trophy,
     items: [
-      { title: 'Clubs List', href: '/clubs/list' },
-      { title: 'Events', href: '/clubs/events' },
+      { title: "Clubs List", href: "/clubs/list" },
+      { title: "Events", href: "/clubs/events" },
     ],
   },
   {
-    title: 'Notices',
+    title: "Notices",
     icon: Bell,
     items: [
-      { title: 'Notice Board', href: '/notices/board' },
-      { title: 'Create Notice', href: '/notices/create' },
+      { title: "Notice Board", href: "/notices/board" },
+      { title: "Create Notice", href: "/notices/create" },
     ],
   },
-  { title: 'Reports', icon: BarChart3, href: '/reports' },
-  { title: 'ID Card Generator', icon: IdCard, href: '/id-card-generator' },
-  { title: 'Settings', icon: Settings, href: '/settings' },
+  { title: "Reports", icon: BarChart3, href: "/reports" },
+  { title: "ID Card Generator", icon: IdCard, href: "/id-card-generator" },
+  { title: "Settings", icon: Settings, href: "/settings" },
 ];
 
-function Sidebar({ className, collapsed }: { className?: string; collapsed: boolean }) {
+function Sidebar({
+  className,
+  collapsed,
+}: {
+  className?: string;
+  collapsed: boolean;
+}) {
   const location = useLocation();
-  const [expandedItems, setExpandedItems] = useState<string[]>(['Students']);
+  const [expandedItems, setExpandedItems] = useState<string[]>(["Students"]);
 
   const toggleExpand = (title: string) => {
     setExpandedItems((prev) =>
-      prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title]
+      prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title],
     );
   };
 
@@ -189,7 +195,12 @@ function Sidebar({ className, collapsed }: { className?: string; collapsed: bool
   };
 
   return (
-    <div className={cn('flex flex-col h-full bg-white border-r border-slate-200 overflow-hidden', className)}>
+    <div
+      className={cn(
+        "flex flex-col h-full bg-white border-r border-slate-200 overflow-hidden",
+        className,
+      )}
+    >
       {/* Logo */}
       <div className="flex items-center gap-3 px-4 py-4 border-b border-slate-100">
         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-200">
@@ -197,8 +208,12 @@ function Sidebar({ className, collapsed }: { className?: string; collapsed: bool
         </div>
         {!collapsed && (
           <div className="flex flex-col">
-            <span className="font-bold text-slate-800 text-sm leading-tight">Odisha Vidyapeeth</span>
-            <span className="text-xs text-slate-500">University Management</span>
+            <span className="font-bold text-slate-800 text-sm leading-tight">
+              Madhya Pradesh Vidyapeeth
+            </span>
+            <span className="text-xs text-slate-500">
+              University Management
+            </span>
           </div>
         )}
       </div>
@@ -217,12 +232,12 @@ function Sidebar({ className, collapsed }: { className?: string; collapsed: bool
                   <Tooltip key={item.title}>
                     <TooltipTrigger asChild>
                       <Link
-                        to={item.href || item.items?.[0]?.href || '#'}
+                        to={item.href || item.items?.[0]?.href || "#"}
                         className={cn(
-                          'flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200',
+                          "flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200",
                           active
-                            ? 'bg-blue-50 text-blue-600'
-                            : 'text-slate-500 hover:bg-slate-100 hover:text-slate-700'
+                            ? "bg-blue-50 text-blue-600"
+                            : "text-slate-500 hover:bg-slate-100 hover:text-slate-700",
                         )}
                       >
                         <Icon className="w-5 h-5" />
@@ -241,10 +256,10 @@ function Sidebar({ className, collapsed }: { className?: string; collapsed: bool
                     <button
                       onClick={() => toggleExpand(item.title)}
                       className={cn(
-                        'flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200',
+                        "flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
                         active
-                          ? 'bg-blue-50 text-blue-600'
-                          : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                          ? "bg-blue-50 text-blue-600"
+                          : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
                       )}
                     >
                       <div className="flex items-center gap-3">
@@ -253,8 +268,8 @@ function Sidebar({ className, collapsed }: { className?: string; collapsed: bool
                       </div>
                       <ChevronDown
                         className={cn(
-                          'w-4 h-4 transition-transform duration-200',
-                          expanded && 'rotate-180'
+                          "w-4 h-4 transition-transform duration-200",
+                          expanded && "rotate-180",
                         )}
                       />
                     </button>
@@ -265,10 +280,10 @@ function Sidebar({ className, collapsed }: { className?: string; collapsed: bool
                             key={sub.href}
                             to={sub.href}
                             className={cn(
-                              'flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200',
+                              "flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200",
                               isActive(sub.href)
-                                ? 'bg-blue-100 text-blue-700 font-medium'
-                                : 'text-slate-500 hover:bg-slate-100 hover:text-slate-700'
+                                ? "bg-blue-100 text-blue-700 font-medium"
+                                : "text-slate-500 hover:bg-slate-100 hover:text-slate-700",
                             )}
                           >
                             {sub.title}
@@ -285,10 +300,10 @@ function Sidebar({ className, collapsed }: { className?: string; collapsed: bool
                   key={item.title}
                   to={item.href!}
                   className={cn(
-                    'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200',
+                    "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
                     active
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
                   )}
                 >
                   <Icon className="w-5 h-5" />
@@ -306,9 +321,13 @@ function Sidebar({ className, collapsed }: { className?: string; collapsed: bool
           <div className="bg-gradient-to-r from-blue-50 to-sky-50 rounded-xl p-4 border border-blue-100">
             <div className="flex items-center gap-2 mb-2">
               <School className="w-5 h-5 text-blue-600" />
-              <span className="font-semibold text-sm text-slate-800">BVU Pune</span>
+              <span className="font-semibold text-sm text-slate-800">
+                BVU Pune
+              </span>
             </div>
-            <p className="text-xs text-slate-500">UGC & AICTE Approved Institution</p>
+            <p className="text-xs text-slate-500">
+              UGC & AICTE Approved Institution
+            </p>
             <p className="text-xs text-slate-400 mt-1">Est. 1964</p>
           </div>
         </div>
@@ -325,14 +344,16 @@ function Header({ onMenuClick }: { onMenuClick: () => void }) {
 
   const getPageTitle = () => {
     const path = location.pathname;
-    if (path === '/') return 'Dashboard';
-    const segments = path.split('/').filter(Boolean);
-    return segments.map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)).join(' / ');
+    if (path === "/") return "Dashboard";
+    const segments = path.split("/").filter(Boolean);
+    return segments
+      .map((s: string) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join(" / ");
   };
 
   const handleLogout = () => {
     logout();
-    toast.success('Logged out successfully');
+    toast.success("Logged out successfully");
   };
 
   return (
@@ -349,13 +370,15 @@ function Header({ onMenuClick }: { onMenuClick: () => void }) {
             <Menu className="w-5 h-5" />
           </Button>
           <div>
-            <h1 className="text-xl font-semibold text-slate-800">{getPageTitle()}</h1>
+            <h1 className="text-xl font-semibold text-slate-800">
+              {getPageTitle()}
+            </h1>
             <p className="text-xs text-slate-500 hidden sm:block">
-              {new Date().toLocaleDateString('en-IN', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
+              {new Date().toLocaleDateString("en-IN", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
               })}
             </p>
           </div>
@@ -388,17 +411,27 @@ function Header({ onMenuClick }: { onMenuClick: () => void }) {
             <DropdownMenuContent align="end" className="w-80">
               <DropdownMenuLabel className="flex items-center justify-between">
                 <span>Notifications</span>
-                <Link to="/notices/board" className="text-xs text-blue-600 hover:underline">
+                <Link
+                  to="/notices/board"
+                  className="text-xs text-blue-600 hover:underline"
+                >
                   View All
                 </Link>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               {state.notifications.slice(0, 5).map((notification) => (
-                <DropdownMenuItem key={notification.id} className="flex flex-col items-start py-2">
-                  <span className="font-medium text-sm">{notification.title}</span>
-                  <span className="text-xs text-slate-500">{notification.message}</span>
+                <DropdownMenuItem
+                  key={notification.id}
+                  className="flex flex-col items-start py-2"
+                >
+                  <span className="font-medium text-sm">
+                    {notification.title}
+                  </span>
+                  <span className="text-xs text-slate-500">
+                    {notification.message}
+                  </span>
                   <span className="text-xs text-slate-400 mt-1">
-                    {new Date(notification.timestamp).toLocaleString('en-IN')}
+                    {new Date(notification.timestamp).toLocaleString("en-IN")}
                   </span>
                 </DropdownMenuItem>
               ))}
@@ -412,12 +445,16 @@ function Header({ onMenuClick }: { onMenuClick: () => void }) {
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={state.auth.user?.avatar} />
                   <AvatarFallback className="bg-blue-100 text-blue-600 text-sm font-medium">
-                    {state.auth.user?.name?.charAt(0) || 'A'}
+                    {state.auth.user?.name?.charAt(0) || "A"}
                   </AvatarFallback>
                 </Avatar>
                 <div className="hidden sm:flex flex-col items-start">
-                  <span className="text-sm font-medium text-slate-700">{state.auth.user?.name || 'Admin'}</span>
-                  <span className="text-xs text-slate-500 capitalize">{state.auth.role}</span>
+                  <span className="text-sm font-medium text-slate-700">
+                    {state.auth.user?.name || "Admin"}
+                  </span>
+                  <span className="text-xs text-slate-500 capitalize">
+                    {state.auth.role}
+                  </span>
                 </div>
                 <ChevronDown className="w-4 h-4 text-slate-400 hidden sm:block" />
               </Button>
@@ -426,13 +463,19 @@ function Header({ onMenuClick }: { onMenuClick: () => void }) {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
+                <Link
+                  to="/profile"
+                  className="flex items-center gap-2 cursor-pointer"
+                >
                   <UserCircle className="w-4 h-4" />
                   Profile
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="/settings" className="flex items-center gap-2 cursor-pointer">
+                <Link
+                  to="/settings"
+                  className="flex items-center gap-2 cursor-pointer"
+                >
                   <Settings className="w-4 h-4" />
                   Settings
                 </Link>
@@ -470,9 +513,9 @@ export default function Layout() {
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed left-0 top-0 z-50 h-full transition-all duration-300 lg:translate-x-0',
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full',
-          sidebarCollapsed ? 'w-20' : 'w-64'
+          "fixed left-0 top-0 z-50 h-full transition-all duration-300 lg:translate-x-0",
+          sidebarOpen ? "translate-x-0" : "-translate-x-full",
+          sidebarCollapsed ? "w-20" : "w-64",
         )}
       >
         <Sidebar collapsed={sidebarCollapsed} />
@@ -481,8 +524,8 @@ export default function Layout() {
       {/* Main Content */}
       <div
         className={cn(
-          'transition-all duration-300',
-          sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'
+          "transition-all duration-300",
+          sidebarCollapsed ? "lg:ml-20" : "lg:ml-64",
         )}
       >
         <Header onMenuClick={() => setSidebarOpen(true)} />
@@ -498,7 +541,11 @@ export default function Layout() {
         onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
         className="fixed bottom-4 left-4 z-50 hidden lg:flex shadow-lg"
       >
-        {sidebarCollapsed ? <Menu className="w-4 h-4" /> : <X className="w-4 h-4" />}
+        {sidebarCollapsed ? (
+          <Menu className="w-4 h-4" />
+        ) : (
+          <X className="w-4 h-4" />
+        )}
       </Button>
     </div>
   );

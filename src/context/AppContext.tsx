@@ -1,13 +1,42 @@
-import React, { createContext, useContext, useReducer, useEffect, type ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  type ReactNode,
+} from "react";
 import type {
-  AuthState, Student, Faculty, Course, Attendance, Exam, Result,
-  FeeStructure, FeePayment, Salary, TransportRoute, Vehicle, Driver,
-  Hostel, HostelAllocation, Book, LibraryTransaction, Club, Notice,
-  Timetable, LeaveApplication, UniversitySettings, Activity, Notification,
-  User, University, Department, Permission
-} from '@/types';
-import { initializeDummyData, USER_CREDENTIALS } from '@/utils/dummyData';
-import { ROLE_CONFIGS } from '@/config/roles';
+  AuthState,
+  Student,
+  Faculty,
+  Course,
+  Attendance,
+  Exam,
+  Result,
+  FeeStructure,
+  FeePayment,
+  Salary,
+  TransportRoute,
+  Vehicle,
+  Driver,
+  Hostel,
+  HostelAllocation,
+  Book,
+  LibraryTransaction,
+  Club,
+  Notice,
+  Timetable,
+  LeaveApplication,
+  UniversitySettings,
+  Activity,
+  Notification,
+  User,
+  University,
+  Department,
+  Permission,
+} from "@/types";
+import { initializeDummyData, USER_CREDENTIALS } from "@/utils/dummyData";
+import { ROLE_CONFIGS } from "@/config/roles";
 
 // Initial State
 interface AppState {
@@ -42,18 +71,18 @@ interface AppState {
 }
 
 const initialSettings: UniversitySettings = {
-  name: 'Odisha Vidyapeeth University',
-  shortName: 'BVU',
-  address: 'Pune-Bangalore Highway',
-  city: 'Pune',
-  state: 'Maharashtra',
-  pincode: '411046',
-  phone: '+91-20-24107390',
-  email: 'info@bvu.edu.in',
-  website: 'www.bvu.edu.in',
-  affiliation: 'UGC, AICTE Approved',
+  name: "Madhya Pradesh Vidyapeeth University",
+  shortName: "BVU",
+  address: "Pune-Bangalore Highway",
+  city: "Pune",
+  state: "Maharashtra",
+  pincode: "411046",
+  phone: "+91-20-24107390",
+  email: "info@bvu.edu.in",
+  website: "www.bvu.edu.in",
+  affiliation: "UGC, AICTE Approved",
   establishmentYear: 1964,
-  principalName: 'Dr. Ramesh Kumar Sharma',
+  principalName: "Dr. Ramesh Kumar Sharma",
 };
 
 const initialAuthState: AuthState = {
@@ -62,7 +91,7 @@ const initialAuthState: AuthState = {
   role: null,
   universityId: null,
   permissions: [],
-  portalPath: '/login',
+  portalPath: "/login",
 };
 
 const defaultItems = initializeDummyData();
@@ -100,167 +129,182 @@ const initialState: AppState = {
 
 // Action Types
 type Action =
-  | { type: 'SET_AUTH'; payload: AuthState }
-  | { type: 'LOGOUT' }
-  | { type: 'SET_STUDENTS'; payload: Student[] }
-  | { type: 'ADD_STUDENT'; payload: Student }
-  | { type: 'UPDATE_STUDENT'; payload: Student }
-  | { type: 'DELETE_STUDENT'; payload: string }
-  | { type: 'SET_FACULTY'; payload: Faculty[] }
-  | { type: 'ADD_FACULTY'; payload: Faculty }
-  | { type: 'UPDATE_FACULTY'; payload: Faculty }
-  | { type: 'DELETE_FACULTY'; payload: string }
-  | { type: 'SET_COURSES'; payload: Course[] }
-  | { type: 'SET_ATTENDANCE'; payload: Attendance[] }
-  | { type: 'ADD_ATTENDANCE'; payload: Attendance }
-  | { type: 'UPDATE_ATTENDANCE'; payload: Attendance }
-  | { type: 'SET_EXAMS'; payload: Exam[] }
-  | { type: 'ADD_EXAM'; payload: Exam }
-  | { type: 'SET_RESULTS'; payload: Result[] }
-  | { type: 'ADD_RESULT'; payload: Result }
-  | { type: 'SET_FEE_STRUCTURES'; payload: FeeStructure[] }
-  | { type: 'SET_FEE_PAYMENTS'; payload: FeePayment[] }
-  | { type: 'ADD_FEE_PAYMENT'; payload: FeePayment }
-  | { type: 'SET_SALARIES'; payload: Salary[] }
-  | { type: 'ADD_SALARY'; payload: Salary }
-  | { type: 'SET_TRANSPORT_ROUTES'; payload: TransportRoute[] }
-  | { type: 'SET_VEHICLES'; payload: Vehicle[] }
-  | { type: 'SET_DRIVERS'; payload: Driver[] }
-  | { type: 'SET_HOSTELS'; payload: Hostel[] }
-  | { type: 'SET_HOSTEL_ALLOCATIONS'; payload: HostelAllocation[] }
-  | { type: 'SET_BOOKS'; payload: Book[] }
-  | { type: 'ADD_BOOK'; payload: Book }
-  | { type: 'SET_LIBRARY_TRANSACTIONS'; payload: LibraryTransaction[] }
-  | { type: 'ADD_LIBRARY_TRANSACTION'; payload: LibraryTransaction }
-  | { type: 'SET_CLUBS'; payload: Club[] }
-  | { type: 'SET_NOTICES'; payload: Notice[] }
-  | { type: 'ADD_NOTICE'; payload: Notice }
-  | { type: 'SET_TIMETABLES'; payload: Timetable[] }
-  | { type: 'SET_LEAVE_APPLICATIONS'; payload: LeaveApplication[] }
-  | { type: 'ADD_LEAVE_APPLICATION'; payload: LeaveApplication }
-  | { type: 'SET_SETTINGS'; payload: UniversitySettings }
-  | { type: 'SET_ACTIVITIES'; payload: Activity[] }
-  | { type: 'ADD_ACTIVITY'; payload: Activity }
-  | { type: 'SET_NOTIFICATIONS'; payload: Notification[] }
-  | { type: 'ADD_NOTIFICATION'; payload: Notification }
-  | { type: 'MARK_NOTIFICATION_READ'; payload: string }
-  | { type: 'LOAD_STATE'; payload: AppState }
-  | { type: 'RESET_DATA' };
+  | { type: "SET_AUTH"; payload: AuthState }
+  | { type: "LOGOUT" }
+  | { type: "SET_STUDENTS"; payload: Student[] }
+  | { type: "ADD_STUDENT"; payload: Student }
+  | { type: "UPDATE_STUDENT"; payload: Student }
+  | { type: "DELETE_STUDENT"; payload: string }
+  | { type: "SET_FACULTY"; payload: Faculty[] }
+  | { type: "ADD_FACULTY"; payload: Faculty }
+  | { type: "UPDATE_FACULTY"; payload: Faculty }
+  | { type: "DELETE_FACULTY"; payload: string }
+  | { type: "SET_COURSES"; payload: Course[] }
+  | { type: "SET_ATTENDANCE"; payload: Attendance[] }
+  | { type: "ADD_ATTENDANCE"; payload: Attendance }
+  | { type: "UPDATE_ATTENDANCE"; payload: Attendance }
+  | { type: "SET_EXAMS"; payload: Exam[] }
+  | { type: "ADD_EXAM"; payload: Exam }
+  | { type: "SET_RESULTS"; payload: Result[] }
+  | { type: "ADD_RESULT"; payload: Result }
+  | { type: "SET_FEE_STRUCTURES"; payload: FeeStructure[] }
+  | { type: "SET_FEE_PAYMENTS"; payload: FeePayment[] }
+  | { type: "ADD_FEE_PAYMENT"; payload: FeePayment }
+  | { type: "SET_SALARIES"; payload: Salary[] }
+  | { type: "ADD_SALARY"; payload: Salary }
+  | { type: "SET_TRANSPORT_ROUTES"; payload: TransportRoute[] }
+  | { type: "SET_VEHICLES"; payload: Vehicle[] }
+  | { type: "SET_DRIVERS"; payload: Driver[] }
+  | { type: "SET_HOSTELS"; payload: Hostel[] }
+  | { type: "SET_HOSTEL_ALLOCATIONS"; payload: HostelAllocation[] }
+  | { type: "SET_BOOKS"; payload: Book[] }
+  | { type: "ADD_BOOK"; payload: Book }
+  | { type: "SET_LIBRARY_TRANSACTIONS"; payload: LibraryTransaction[] }
+  | { type: "ADD_LIBRARY_TRANSACTION"; payload: LibraryTransaction }
+  | { type: "SET_CLUBS"; payload: Club[] }
+  | { type: "SET_NOTICES"; payload: Notice[] }
+  | { type: "ADD_NOTICE"; payload: Notice }
+  | { type: "SET_TIMETABLES"; payload: Timetable[] }
+  | { type: "SET_LEAVE_APPLICATIONS"; payload: LeaveApplication[] }
+  | { type: "ADD_LEAVE_APPLICATION"; payload: LeaveApplication }
+  | { type: "SET_SETTINGS"; payload: UniversitySettings }
+  | { type: "SET_ACTIVITIES"; payload: Activity[] }
+  | { type: "ADD_ACTIVITY"; payload: Activity }
+  | { type: "SET_NOTIFICATIONS"; payload: Notification[] }
+  | { type: "ADD_NOTIFICATION"; payload: Notification }
+  | { type: "MARK_NOTIFICATION_READ"; payload: string }
+  | { type: "LOAD_STATE"; payload: AppState }
+  | { type: "RESET_DATA" };
 
 // Reducer
 function appReducer(state: AppState, action: Action): AppState {
   switch (action.type) {
-    case 'SET_AUTH':
+    case "SET_AUTH":
       return { ...state, auth: action.payload };
-    case 'LOGOUT':
+    case "LOGOUT":
       return { ...state, auth: initialAuthState };
-    case 'SET_STUDENTS':
+    case "SET_STUDENTS":
       return { ...state, students: action.payload };
-    case 'ADD_STUDENT':
+    case "ADD_STUDENT":
       return { ...state, students: [...state.students, action.payload] };
-    case 'UPDATE_STUDENT':
+    case "UPDATE_STUDENT":
       return {
         ...state,
-        students: state.students.map((s) => (s.id === action.payload.id ? action.payload : s)),
+        students: state.students.map((s) =>
+          s.id === action.payload.id ? action.payload : s,
+        ),
       };
-    case 'DELETE_STUDENT':
+    case "DELETE_STUDENT":
       return {
         ...state,
         students: state.students.filter((s) => s.id !== action.payload),
       };
-    case 'SET_FACULTY':
+    case "SET_FACULTY":
       return { ...state, faculty: action.payload };
-    case 'ADD_FACULTY':
+    case "ADD_FACULTY":
       return { ...state, faculty: [...state.faculty, action.payload] };
-    case 'UPDATE_FACULTY':
+    case "UPDATE_FACULTY":
       return {
         ...state,
-        faculty: state.faculty.map((f) => (f.id === action.payload.id ? action.payload : f)),
+        faculty: state.faculty.map((f) =>
+          f.id === action.payload.id ? action.payload : f,
+        ),
       };
-    case 'DELETE_FACULTY':
+    case "DELETE_FACULTY":
       return {
         ...state,
         faculty: state.faculty.filter((f) => f.id !== action.payload),
       };
-    case 'SET_COURSES':
+    case "SET_COURSES":
       return { ...state, courses: action.payload };
-    case 'SET_ATTENDANCE':
+    case "SET_ATTENDANCE":
       return { ...state, attendance: action.payload };
-    case 'ADD_ATTENDANCE':
+    case "ADD_ATTENDANCE":
       return { ...state, attendance: [...state.attendance, action.payload] };
-    case 'UPDATE_ATTENDANCE':
+    case "UPDATE_ATTENDANCE":
       return {
         ...state,
-        attendance: state.attendance.map((a) => (a.id === action.payload.id ? action.payload : a)),
+        attendance: state.attendance.map((a) =>
+          a.id === action.payload.id ? action.payload : a,
+        ),
       };
-    case 'SET_EXAMS':
+    case "SET_EXAMS":
       return { ...state, exams: action.payload };
-    case 'ADD_EXAM':
+    case "ADD_EXAM":
       return { ...state, exams: [...state.exams, action.payload] };
-    case 'SET_RESULTS':
+    case "SET_RESULTS":
       return { ...state, results: action.payload };
-    case 'ADD_RESULT':
+    case "ADD_RESULT":
       return { ...state, results: [...state.results, action.payload] };
-    case 'SET_FEE_STRUCTURES':
+    case "SET_FEE_STRUCTURES":
       return { ...state, feeStructures: action.payload };
-    case 'SET_FEE_PAYMENTS':
+    case "SET_FEE_PAYMENTS":
       return { ...state, feePayments: action.payload };
-    case 'ADD_FEE_PAYMENT':
+    case "ADD_FEE_PAYMENT":
       return { ...state, feePayments: [...state.feePayments, action.payload] };
-    case 'SET_SALARIES':
+    case "SET_SALARIES":
       return { ...state, salaries: action.payload };
-    case 'ADD_SALARY':
+    case "ADD_SALARY":
       return { ...state, salaries: [...state.salaries, action.payload] };
-    case 'SET_TRANSPORT_ROUTES':
+    case "SET_TRANSPORT_ROUTES":
       return { ...state, transportRoutes: action.payload };
-    case 'SET_VEHICLES':
+    case "SET_VEHICLES":
       return { ...state, vehicles: action.payload };
-    case 'SET_DRIVERS':
+    case "SET_DRIVERS":
       return { ...state, drivers: action.payload };
-    case 'SET_HOSTELS':
+    case "SET_HOSTELS":
       return { ...state, hostels: action.payload };
-    case 'SET_HOSTEL_ALLOCATIONS':
+    case "SET_HOSTEL_ALLOCATIONS":
       return { ...state, hostelAllocations: action.payload };
-    case 'SET_BOOKS':
+    case "SET_BOOKS":
       return { ...state, books: action.payload };
-    case 'ADD_BOOK':
+    case "ADD_BOOK":
       return { ...state, books: [...state.books, action.payload] };
-    case 'SET_LIBRARY_TRANSACTIONS':
+    case "SET_LIBRARY_TRANSACTIONS":
       return { ...state, libraryTransactions: action.payload };
-    case 'ADD_LIBRARY_TRANSACTION':
-      return { ...state, libraryTransactions: [...state.libraryTransactions, action.payload] };
-    case 'SET_CLUBS':
+    case "ADD_LIBRARY_TRANSACTION":
+      return {
+        ...state,
+        libraryTransactions: [...state.libraryTransactions, action.payload],
+      };
+    case "SET_CLUBS":
       return { ...state, clubs: action.payload };
-    case 'SET_NOTICES':
+    case "SET_NOTICES":
       return { ...state, notices: action.payload };
-    case 'ADD_NOTICE':
+    case "ADD_NOTICE":
       return { ...state, notices: [...state.notices, action.payload] };
-    case 'SET_TIMETABLES':
+    case "SET_TIMETABLES":
       return { ...state, timetables: action.payload };
-    case 'SET_LEAVE_APPLICATIONS':
+    case "SET_LEAVE_APPLICATIONS":
       return { ...state, leaveApplications: action.payload };
-    case 'ADD_LEAVE_APPLICATION':
-      return { ...state, leaveApplications: [...state.leaveApplications, action.payload] };
-    case 'SET_SETTINGS':
+    case "ADD_LEAVE_APPLICATION":
+      return {
+        ...state,
+        leaveApplications: [...state.leaveApplications, action.payload],
+      };
+    case "SET_SETTINGS":
       return { ...state, settings: action.payload };
-    case 'SET_ACTIVITIES':
+    case "SET_ACTIVITIES":
       return { ...state, activities: action.payload };
-    case 'ADD_ACTIVITY':
+    case "ADD_ACTIVITY":
       return { ...state, activities: [action.payload, ...state.activities] };
-    case 'SET_NOTIFICATIONS':
+    case "SET_NOTIFICATIONS":
       return { ...state, notifications: action.payload };
-    case 'ADD_NOTIFICATION':
-      return { ...state, notifications: [action.payload, ...state.notifications] };
-    case 'MARK_NOTIFICATION_READ':
+    case "ADD_NOTIFICATION":
+      return {
+        ...state,
+        notifications: [action.payload, ...state.notifications],
+      };
+    case "MARK_NOTIFICATION_READ":
       return {
         ...state,
         notifications: state.notifications.map((n) =>
-          n.id === action.payload ? { ...n, read: true } : n
+          n.id === action.payload ? { ...n, read: true } : n,
         ),
       };
-    case 'LOAD_STATE':
+    case "LOAD_STATE":
       return action.payload;
-    case 'RESET_DATA':
+    case "RESET_DATA":
       return { ...initialState, auth: state.auth };
     default:
       return state;
@@ -281,20 +325,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // Load from sessionStorage on mount
   useEffect(() => {
-    const savedState = sessionStorage.getItem('uims_state');
+    const savedState = sessionStorage.getItem("uims_state");
     if (savedState) {
       try {
         const parsedState = JSON.parse(savedState);
-        dispatch({ type: 'LOAD_STATE', payload: { ...initialState, ...parsedState } });
+        dispatch({
+          type: "LOAD_STATE",
+          payload: { ...initialState, ...parsedState },
+        });
       } catch (error) {
-        console.error('Error loading state from sessionStorage:', error);
+        console.error("Error loading state from sessionStorage:", error);
       }
     }
   }, []);
 
   // Save to sessionStorage on state change
   useEffect(() => {
-    sessionStorage.setItem('uims_state', JSON.stringify(state));
+    sessionStorage.setItem("uims_state", JSON.stringify(state));
   }, [state]);
 
   return (
@@ -308,7 +355,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 export function useApp() {
   const context = useContext(AppContext);
   if (context === undefined) {
-    throw new Error('useApp must be used within an AppProvider');
+    throw new Error("useApp must be used within an AppProvider");
   }
   return context;
 }
@@ -322,20 +369,20 @@ export function useAuth() {
     const user = state.users.find((u) => u.username === username);
 
     if (!user) {
-      return { success: false, message: 'User not found' };
+      return { success: false, message: "User not found" };
     }
 
     // Check credentials from USER_CREDENTIALS map
     const credentials = USER_CREDENTIALS[username];
     if (!credentials || credentials.password !== password) {
-      return { success: false, message: 'Invalid password' };
+      return { success: false, message: "Invalid password" };
     }
 
     // Get role config for permissions and portal path
     const roleConfig = ROLE_CONFIGS[user.role];
 
     dispatch({
-      type: 'SET_AUTH',
+      type: "SET_AUTH",
       payload: {
         isLoggedIn: true,
         user,
@@ -350,7 +397,7 @@ export function useAuth() {
   };
 
   const logout = () => {
-    dispatch({ type: 'LOGOUT' });
+    dispatch({ type: "LOGOUT" });
   };
 
   return {
